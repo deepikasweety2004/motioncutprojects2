@@ -1,0 +1,27 @@
+import java.util.Scanner;
+
+public class CommandLineInterface {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        LinkShortener linkShortener = new LinkShortener();
+
+        while (true) {
+            System.out.println("Enter the URL to shorten or a short URL to expand (q to quit):");
+            String input = scanner.nextLine();
+
+            if (input.equalsIgnoreCase("q")) {
+                break;
+            }
+
+            if (input.startsWith("http")) {
+                String shortURL = linkShortener.shortenURL(input);
+                System.out.println("Shortened URL: " + shortURL);
+            } else {
+                String expandedURL = linkShortener.expandURL(input);
+                System.out.println("Expanded URL: " + expandedURL);
+            }
+        }
+
+        scanner.close();
+    }
+}
