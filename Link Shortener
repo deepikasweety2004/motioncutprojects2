@@ -1,0 +1,50 @@
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+
+public class LinkShortener {
+    private Map<String, String> shortToLongMap;
+    private Map<String, String> longToShortMap;
+
+    public LinkShortener() {
+        shortToLongMap = new HashMap<>();
+        longToShortMap = new HashMap<>();
+    }
+
+    public String shortenURL(String longURL) {
+        if (!URLValidator.isValidURL(longURL)) {
+            return "Invalid URL!";
+        }
+
+        if (longToShortMap.containsKey(longURL)) {
+            return longToShortMap.get(longURL);
+        } else {
+            String shortURL = generateShortURL();
+            shortToLongMap.put(shortURL, longURL);
+            longToShortMap.put(longURL, shortURL);
+            return shortURL;
+        }
+    }
+
+    public String expandURL(String shortURL) {
+        if (shortToLongMap.containsKey(shortURL)) {
+            return shortToLongMap.get(shortURL);
+        } else {
+            return "Invalid short URL!";
+        }
+    }
+
+    private String generateShortURL() {
+        Random random = new Random();
+        StringBuilder sb = new StringBuilder();
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        int length = 6; // Change this to adjust the length of the short URL
+
+        for (int i = 0; i < length; i++) {
+            int index = random.nextInt(characters.length());
+            sb.append(characters.charAt(index));
+        }
+
+        return sb.toString();
+    }
+}
